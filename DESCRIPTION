@@ -1,0 +1,31 @@
+Type: Package
+Package: baltimoremls
+Title: Read and Format Baltimore MLS Data
+Version: 0.1.0
+Authors@R: 
+    person("Eli", "Pousson", , "eli.pousson@gmail.com", role = c("aut", "cre", "cph"),
+           comment = c(ORCID = "0000-0001-8280-1706"))
+Maintainer: Eli Pousson <eli.pousson@gmail.com>
+Description: A package with helper functions for reading and formatting
+    Bright MLS property sales data for Baltimore City provided to city
+    agencies through a parntership with Live Baltimore.
+License: MIT + file LICENSE
+BugReports: https://github.com/elipousson/baltimoremls/issues
+Imports: 
+    cli,
+    dplyr,
+    getdata (>= 0.1.0.9002),
+    janitor,
+    lubridate,
+    naniar,
+    rlang,
+    sf,
+    vctrs
+Remotes: 
+    elipousson/getdata
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Depends: 
+    R (>= 2.10)
