@@ -14,15 +14,19 @@ BugReports: https://github.com/elipousson/baltimoremls/issues
 Imports: 
     cli,
     dplyr,
+    filenamr (>= 0.1.0.9002),
+    forcats,
     getdata (>= 0.1.0.9002),
     janitor,
     lubridate,
     naniar,
     rlang,
     sf,
+    stats,
     vctrs
 Remotes: 
-    elipousson/getdata
+    elipousson/getdata,
+    elipousson/filenamr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

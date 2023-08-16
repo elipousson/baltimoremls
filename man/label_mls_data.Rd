@@ -7,6 +7,8 @@
 label_mls_data(data, cols = c("label", "nm"))
 }
 \arguments{
+\item{data}{A data frame with Bright MLS sales data to label.}
+
 \item{cols}{Column names, Default: c("label", "nm")}
 }
 \description{

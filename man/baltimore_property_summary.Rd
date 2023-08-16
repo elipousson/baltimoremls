@@ -7,11 +7,18 @@
 \format{
 A data frame with 278 rows and 7 variables:
 \describe{
-\item{\code{type}}{Neighborhood (2010) type}
-\item{\code{name}}{County, neighborhood (2010), or City Council District name}
+\item{\code{name}}{County, neighborhood (2010), City Council District, or Planning District name}
+\item{\code{type}}{Type (for neighborhood (2010) geography only)}
 \item{\code{num_properties}}{Total number of properties}
-\item{\code{num_residential}}{Total number of properties with usecode attribute of R}
-\item{\code{perc_residential}}{num_residential as a percent of total properties}
+\item{\code{num_vacant_lot}}{Total number of properties with no improvements}
+\item{\code{num_vacant_bldg}}{Total number of vacant buildings}
+\item{\code{num_buildings}}{Total properties with improvements}
+\item{\code{num_residential_bldg}}{Number of improved properties with usecode value "R"}
+\item{\code{num_ground_rent}}{Number of properties with ground rent greater than 0}
+\item{\code{perc_residential_bldg}}{Residential buildings as a share of all buildings}
+\item{\code{perc_vacant_lot}}{Vacant lots as a share of all properties}
+\item{\code{perc_vacant_bldg}}{Vacant buildings as a share of all buildings}
+\item{\code{perc_ground_rent}}{Share of all properties with ground rent greater than 0}
 \item{\code{median_land_value}}{Median value for currland attribute (removing NA values and replacing 0 with NA)}
 \item{\code{median_imprv_value}}{Median value for currimpr attribute (removing NA values and replacing 0 with NA)}
 \item{\code{county}}{County name}

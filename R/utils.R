@@ -6,6 +6,22 @@
   )
 }
 
+utils::globalVariables(
+  c(
+    "currimpr", "currland", "grndrent", "num_buildings", "num_ground_rent",
+    "num_properties", "num_residential_bldg", "num_vacant_bldg", "num_vacant_lot",
+    "usegroup", "vacant_bldg", "vacant_lot"
+  )
+)
+
+.st_transform_ext <- function(x, crs = NULL, allow_null = TRUE, ...) {
+  if (allow_null && is_null(crs)) {
+    return(x)
+  }
+
+  sf::st_transform(x, crs = sf::st_crs(crs), ...)
+}
+
 #' Select MLS columns for creation of a simplified summary table
 #'
 #' @keywords internal
@@ -35,6 +51,7 @@ select_mls_cols <- function(data,
 
 #' Label MLS data using `mls_dictionary` and [getdata::label_with_xwalk()]
 #'
+#' @param data A data frame with Bright MLS sales data to label.
 #' @param cols Column names, Default: c("label", "nm")
 #' @seealso
 #'  [getdata::format_data()], [getdata::make_xwalk_list()]
