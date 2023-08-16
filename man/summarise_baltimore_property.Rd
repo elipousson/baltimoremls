@@ -41,7 +41,7 @@ reframe_baltimore_property(
   property_data,
   .by = NULL,
   .cols = c("usegroup", "currland", "currimpr", "vacant_lot", "vacant_bldg", "grndrent"),
-  call = caller_env()
+  .error_call = caller_env()
 )
 }
 \arguments{
@@ -115,6 +115,11 @@ e.g. \code{"pkg (>= 1.0.0)"}.}
 cached files that use the same filename.}
 
 \item{.cols}{Required column names.}
+
+\item{.error_call}{The execution environment of a currently
+running function, e.g. \code{caller_env()}. The function will be
+mentioned in error messages as the source of the error. See the
+\code{call} argument of \code{\link[rlang:abort]{abort()}} for more information.}
 }
 \value{
 A data frame or sf object (if keep_geometry is \code{TRUE})

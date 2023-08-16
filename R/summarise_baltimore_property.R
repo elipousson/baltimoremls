@@ -71,67 +71,25 @@ summarise_baltimore_property <- function(property_data = NULL,
     property_data <- get_baltimore_property(location = location, ...)
   }
 
-  if (!is.null(input_sf)) {
-    input_sf <- .st_transform_ext(
-      input_sf,
-      crs = property_data,
-      allow_null = FALSE
-    )
-
-    stopifnot(is_string(id_col))
-
-    if (placement == "centroid") {
-      cli::cli_progress_step("Getting centroids for property data")
-      property_data <- suppressWarnings(sf::st_centroid(property_data))
-    } else if (placement == "surface") {
-      cli::cli_progress_step("Getting point on surface geometry for property data")
-      property_data <- suppressWarnings(sf::st_point_on_surface(property_data))
-    }
-
-    cli::cli_progress_step("Joining property data to {.arg input_sf}")
-
-    property_data <- sf::st_join(
-      x = property_data,
-      y = dplyr::select(input_sf, dplyr::all_of(c(id_col, .by))),
-      suffix = suffix,
-      join = join,
-      left = left,
-      largest = largest
-    )
-  }
-
-  if (!keep_geometry) {
-    property_data <- sf::st_drop_geometry(property_data)
-  }
-
-  if (!has_name(property_data, id_col)) {
-    if (!is.null(name)) {
-      property_data <- dplyr::mutate(
-        property_data,
-        "{id_col}" := name
-      )
-    } else {
-      cli_abort(
-        "{.arg name} is required if {.arg input_sf} and {.arg property_data}
-        are both missing a column matching {.arg id_col}: {.val {id_col}}",
-        call = call
-      )
-    }
-  }
-
-  property_summary <- exec(.fn, property_data = property_data, .by = .by)
-
-  vctrs::vec_cbind(
-    property_summary,
-    as.data.frame(
-      vctrs::list_drop_empty(
-        list(
-          geography = geography,
-          county = county,
-          state = state
-        )
-      )
-    )
+  summarise_by_sf(
+    data = property_data,
+    location = location,
+    input_sf = input_sf,
+    ...,
+    .by = .by,
+    id_col = id_col,
+    .fn = .fn,
+    suffix = suffix,
+    placement = placement,
+    name = name,
+    keep_geometry = keep_geometry,
+    geography = geography,
+    county = county,
+    state = state,
+    join = join,
+    left = left,
+    largest = largest,
+    call = call
   )
 }
 
@@ -189,15 +147,8 @@ reframe_baltimore_property <- function(property_data,
                                          "usegroup", "currland", "currimpr",
                                          "vacant_lot", "vacant_bldg", "grndrent"
                                        ),
-                                       call = caller_env()) {
-  if (!all(has_name(property_data, .cols))) {
-    cli_abort(
-      "One or more required column names {.val {.cols}} can't be found in {.arg property_data}",
-      call = call
-    )
-  }
-
-  dplyr::reframe(
+                                       .error_call = caller_env()) {
+  reframe_ext(
     property_data,
     # counts
     num_properties = dplyr::n(),
@@ -214,6 +165,8 @@ reframe_baltimore_property <- function(property_data,
     # median values
     median_land_value = stats::median(currland, na.rm = TRUE),
     median_imprv_value = stats::median(currimpr, na.rm = TRUE),
-    .by = .by
+    .by = .by,
+    .cols = .cols,
+    .error_call = .error_call
   )
 }
