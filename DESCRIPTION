@@ -11,9 +11,11 @@ Description: A package with helper functions for reading and formatting
     agencies through a parntership with Live Baltimore.
 License: MIT + file LICENSE
 BugReports: https://github.com/elipousson/baltimoremls/issues
+Depends: 
+    R (>= 3.5.0)
 Imports: 
     cli,
-    dplyr,
+    dplyr (>= 1.1.1),
     filenamr (>= 0.1.0.9002),
     forcats,
     getdata (>= 0.1.0.9002),
@@ -25,11 +27,9 @@ Imports:
     stats,
     vctrs
 Remotes: 
-    elipousson/getdata,
-    elipousson/filenamr
+    elipousson/filenamr,
+    elipousson/getdata
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
-Depends: 
-    R (>= 2.10)
