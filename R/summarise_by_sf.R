@@ -29,12 +29,12 @@ summarise_by_sf <- function(data = NULL,
 
     stopifnot(is_string(id_col))
 
-    is_point_input <- sf::st_is(input_sf, "POINT")
+    is_point_data <- all(sf::st_is(data, "POINT"))
 
-    if (!is_point_input && identical(placement, "centroid")) {
+    if (!is_point_data && identical(placement, "centroid")) {
       cli::cli_progress_step("Getting centroids for {.arg {data_arg}}")
       data <- suppressWarnings(sf::st_centroid(data))
-    } else if (!is_point_input && identical(placement, "surface")) {
+    } else if (!is_point_data && identical(placement, "surface")) {
       cli::cli_progress_step("Getting point on surface geometry for {.arg {data_arg}}")
       data <- suppressWarnings(sf::st_point_on_surface(data))
     }
@@ -43,7 +43,7 @@ summarise_by_sf <- function(data = NULL,
 
     data <- sf::st_join(
       x = data,
-      y = dplyr::select(input_sf, dplyr::all_of(c(id_col, .by))),
+      y = dplyr::select(input_sf, dplyr::any_of(c(id_col, .by))),
       suffix = suffix,
       ...,
       join = join,
