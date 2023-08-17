@@ -16,6 +16,8 @@ format_mls_dates(
   list_date_col = "listing_date",
   close_date_col = "close_date",
   contract_date_col = "contract_date",
+  orders = "ymd HMS",
+  tz = "ET",
   with_year = TRUE,
   dom_col = "dom",
   cdom_col = "cdom"
@@ -24,7 +26,7 @@ format_mls_dates(
 format_mls_prices(
   data,
   original_list_price_col = "original_list_price",
-  sales_price_col = "sales_price",
+  sale_price_col = "sales_price",
   ...
 )
 
@@ -51,7 +53,7 @@ collapse_mls_ownership_type(
 )
 }
 \arguments{
-\item{data}{Input data frame to format.}
+\item{data}{A data frame of MLS data to format.}
 
 \item{list_date_col}{List date column name, Default: 'listing_date'}
 
@@ -59,9 +61,29 @@ collapse_mls_ownership_type(
 
 \item{contract_date_col}{Contract date column name, Default: 'contract_date'}
 
-\item{with_year}{Passed to \code{\link[lubridate:quarter]{lubridate::quarter()}} Default: TRUE}
+\item{orders}{a character vector of date-time formats. Each order string is
+a series of formatting characters as listed in \code{\link[base:strptime]{base::strptime()}} but
+might not include the \code{"\%"} prefix. For example, "ymd" will match all the
+possible dates in year, month, day order. Formatting orders might include
+arbitrary separators. These are discarded. See details for the implemented
+formats. If multiple order strings are supplied, they are applied in turn
+for \code{parse_date_time2()} and \code{fast_strptime()}. For \code{parse_date_time()}
+the order of applied formats is determined by \code{select_formats} parameter.}
 
-\item{dom_col, cdom_col, original_list_price_col, sales_price_col, sale_price_col, price_per_area_unit_col}{Expected column names in the source data.}
+\item{tz}{a character string that specifies the time zone with which to
+parse the dates}
+
+\item{with_year}{Passed to \code{\link[lubridate:quarter]{lubridate::quarter()}} Default: \code{TRUE}}
+
+\item{dom_col, cdom_col}{Days on market and cumulative days on market columns.
+Defaults to "dom" and "cdom".}
+
+\item{original_list_price_col, sale_price_col}{Column names for the original
+list price and sales price. Defaults to "original_list_price" and
+"sales_price".}
+
+\item{price_per_area_unit_col}{Column name to add for derived price per area
+unit column (based on supplied \code{area_col} parameter).}
 }
 \value{
 A data frame.

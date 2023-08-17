@@ -23,13 +23,15 @@ get_mls_data <- function(data,
                          collapse_types = TRUE,
                          ...,
                          crs = 3857) {
-  mls_data <- getdata::get_location_data(
-    data = data,
-    location = location,
-    crop = crop,
-    trim = trim,
-    ...,
-    crs = crs
+  mls_data <- suppressWarnings(
+    getdata::get_location_data(
+      data = data,
+      location = location,
+      crop = crop,
+      trim = trim,
+      ...,
+      crs = crs
+    )
   )
 
   mls_data <- sf::st_make_valid(mls_data)
