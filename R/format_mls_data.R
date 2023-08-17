@@ -56,7 +56,7 @@ format_mls_dates <- function(data,
                              close_date_col = "close_date",
                              contract_date_col = "contract_date",
                              orders = "ymd HMS",
-                             tz = "ET",
+                             tz = "UTC",
                              with_year = TRUE,
                              dom_col = "dom",
                              cdom_col = "cdom") {
