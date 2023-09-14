@@ -57,18 +57,18 @@ summarise_by_sf <- function(data = NULL,
   }
 
   if (!has_name(data, id_col)) {
-    if (!is.null(name)) {
-      data <- dplyr::mutate(
-        data,
-        "{id_col}" := name
-      )
-    } else {
+    if (is.null(name)) {
       cli_abort(
         "{.arg name} is required if {.arg input_sf} and {.arg {data_arg}}
         are both missing a column matching {.arg id_col}: {.val {id_col}}",
         call = call
       )
     }
+
+    data <- dplyr::mutate(
+      data,
+      "{id_col}" := name
+    )
   }
 
   data_summary <- exec(.fn, data = data, .by = .by)
