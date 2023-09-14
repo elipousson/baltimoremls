@@ -22,12 +22,13 @@
 #' @importFrom naniar replace_with_na
 #' @importFrom dplyr mutate distinct
 format_mls_data <- function(data,
+                            quarter_type = "date_last",
                             ...) {
   data <- format_mls_prices(data, ...)
 
   data <- format_mls_price_per_area(data, ...)
 
-  data <- format_mls_dates(data, ...)
+  data <- format_mls_dates(data, quarter_type = quarter_type, ...)
 
   if (has_name(data, "reporting_region")) {
     data <- naniar::replace_with_na(
@@ -57,7 +58,7 @@ format_mls_dates <- function(data,
                              contract_date_col = "contract_date",
                              orders = "ymd HMS",
                              tz = "UTC",
-                             with_year = TRUE,
+                             quarter_type = "date_last",
                              dom_col = "dom",
                              cdom_col = "cdom") {
   stopifnot(
@@ -69,11 +70,11 @@ format_mls_dates <- function(data,
     "{list_date_col}" := lubridate::parse_date_time(.data[[list_date_col]], orders, tz),
     list_year = lubridate::year(.data[[list_date_col]]),
     list_month = lubridate::month(.data[[list_date_col]]),
-    list_quarter = lubridate::quarter(.data[[list_date_col]], with_year = with_year),
+    list_quarter = lubridate::quarter(.data[[list_date_col]], type = quarter_type),
     "{close_date_col}" = lubridate::parse_date_time(.data[[close_date_col]], orders, tz),
     close_year = lubridate::year(.data[[close_date_col]]),
     close_month = lubridate::month(.data[[close_date_col]]),
-    close_quarter = lubridate::quarter(.data[[close_date_col]], with_year = with_year)
+    close_quarter = lubridate::quarter(.data[[close_date_col]], type = quarter_type)
   )
 
   if (has_name(data, contract_date_col)) {

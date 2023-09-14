@@ -9,7 +9,7 @@
 \alias{collapse_mls_ownership_type}
 \title{Format MLS data}
 \usage{
-format_mls_data(data, ...)
+format_mls_data(data, quarter_type = "date_last", ...)
 
 format_mls_dates(
   data,
@@ -18,7 +18,7 @@ format_mls_dates(
   contract_date_col = "contract_date",
   orders = "ymd HMS",
   tz = "UTC",
-  with_year = TRUE,
+  quarter_type = "date_last",
   dom_col = "dom",
   cdom_col = "cdom"
 )
@@ -73,8 +73,6 @@ the order of applied formats is determined by \code{select_formats} parameter.}
 \item{tz}{a character string that specifies the time zone with which to
 parse the dates}
 
-\item{with_year}{Passed to \code{\link[lubridate:quarter]{lubridate::quarter()}} Default: \code{TRUE}}
-
 \item{dom_col, cdom_col}{Days on market and cumulative days on market columns.
 Defaults to "dom" and "cdom".}
 
@@ -84,6 +82,8 @@ list price and sales price. Defaults to "original_list_price" and
 
 \item{price_per_area_unit_col}{Column name to add for derived price per area
 unit column (based on supplied \code{area_col} parameter).}
+
+\item{with_year}{Passed to \code{\link[lubridate:quarter]{lubridate::quarter()}} Default: \code{TRUE}}
 }
 \value{
 A data frame.
